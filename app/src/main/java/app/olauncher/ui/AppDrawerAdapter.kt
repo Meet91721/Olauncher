@@ -49,6 +49,7 @@ class AppDrawerAdapter(
     private val myUserHandle = android.os.Process.myUserHandle()
 
     var appsList: MutableList<AppModel> = mutableListOf()
+    val focusAppList: List<String> = listOf("com.twitter.android")
     var appFilteredList: MutableList<AppModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -121,8 +122,8 @@ class AppDrawerAdapter(
     }
 
     private fun appLabelMatches(appLabel: String, charSearch: CharSequence): Boolean {
-        val search = charSearch.trim().toString().toLowerCase().toString()
-        val appName = appLabel.toLowerCase()
+        val search = charSearch.trim().toString().lowercase().toString()
+        val appName = appLabel.lowercase()
         var index = 0
         for (i in appName.indices) {
             if (appName[i].equals(search[index], true)) {
@@ -194,7 +195,7 @@ class AppDrawerAdapter(
                         etAppRename.imeOptions = EditorInfo.IME_ACTION_DONE;
                     }
                 }
-                etAppRename.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+                etAppRename.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus)
                         appTitle.visibility = View.INVISIBLE
                     else

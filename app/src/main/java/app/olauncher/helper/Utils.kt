@@ -48,6 +48,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.text.Collator
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.Date
 import java.util.Locale
 import java.util.Scanner
@@ -61,6 +62,13 @@ fun Context.showToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
 
 fun Context.showToast(stringResource: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, getString(stringResource), duration).show()
+}
+
+fun isFocusTime(appPackage: String): Boolean {
+    val currentHr = LocalDateTime.now().hour
+    return if (BuildConfig.FOCUS_APPS_LIST.contains(appPackage)) {
+        (currentHr < 7 || currentHr >= 21) || (currentHr >= 9 && currentHr <= 19)
+    } else false
 }
 
 suspend fun getAppsList(
@@ -93,8 +101,8 @@ suspend fun getAppsList(
                         profile
                     )
 
-                    // if the current app is not OLauncher
-                    if (app.applicationInfo.packageName != BuildConfig.APPLICATION_ID) {
+                    // if the current app is not OLauncher itself and not in focus time
+                    if (app.applicationInfo.packageName != BuildConfig.APPLICATION_ID && !isFocusTime(appModel.appPackage)) {
                         // is this a hidden app?
                         if (hiddenApps.contains(app.applicationInfo.packageName + "|" + profile.toString())) {
                             if (includeHiddenApps) {
