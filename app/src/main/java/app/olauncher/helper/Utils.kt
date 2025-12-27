@@ -101,6 +101,9 @@ suspend fun getAppsList(
                         profile
                     )
 
+                    if (BuildConfig.NOT_REQUIRED_APP_LIST.contains(app.applicationInfo.packageName)) {
+                        continue
+                    }
                     // if the current app is not OLauncher itself and not in focus time
                     if (app.applicationInfo.packageName != BuildConfig.APPLICATION_ID && !isFocusTime(appModel.appPackage)) {
                         // is this a hidden app?
