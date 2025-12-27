@@ -86,9 +86,14 @@ class AppDrawerAdapter(
                 val appFilteredList = (if (charSearch.isNullOrBlank()) appsList
                 else appsList.filter { app ->
                     appLabelMatches(app.appLabel, charSearch)
-//                }.sortedByDescending {
-//                    charSearch.contentEquals(it.appLabel, true)
-                } as MutableList<AppModel>)
+                }).toMutableList()
+
+                appFilteredList.sortWith(Comparator { app1, app2 ->
+                    app1.openCount.compareTo(app2.openCount).let {
+                        if (it != 0) -it else
+                            app1.appLabel.compareTo(app2.appLabel, true)
+                    }
+                })
 
                 val filterResults = FilterResults()
                 filterResults.values = appFilteredList

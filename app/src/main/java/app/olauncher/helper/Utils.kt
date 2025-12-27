@@ -71,6 +71,8 @@ fun isFocusTime(appPackage: String): Boolean {
     } else false
 }
 
+val appOpenCount = mutableMapOf<String, Short>()
+
 suspend fun getAppsList(
     context: Context,
     prefs: Prefs,
@@ -92,18 +94,20 @@ suspend fun getAppsList(
                 for (app in launcherApps.getActivityList(null, profile)) {
 
                     val appLabelShown = prefs.getAppRenameLabel(app.applicationInfo.packageName).ifBlank { app.label.toString() }
+
+                    if (BuildConfig.NOT_REQUIRED_APP_LIST.contains(app.applicationInfo.packageName)) {
+                        continue
+                    }
+                    appOpenCount.putIfAbsent(app.applicationInfo.packageName, 0)
                     val appModel = AppModel(
                         appLabelShown,
                         collator.getCollationKey(app.label.toString()),
                         app.applicationInfo.packageName,
                         app.componentName.className,
                         (System.currentTimeMillis() - app.firstInstallTime) < Constants.ONE_HOUR_IN_MILLIS,
-                        profile
+                        profile,
+                        appOpenCount[app.applicationInfo.packageName]?.toInt() ?: 0,
                     )
-
-                    if (BuildConfig.NOT_REQUIRED_APP_LIST.contains(app.applicationInfo.packageName)) {
-                        continue
-                    }
                     // if the current app is not OLauncher itself and not in focus time
                     if (app.applicationInfo.packageName != BuildConfig.APPLICATION_ID && !isFocusTime(appModel.appPackage)) {
                         // is this a hidden app?

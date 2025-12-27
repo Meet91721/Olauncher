@@ -4,7 +4,7 @@
     <string name="githubF" translatable="false">Github Fork</string>
     <string name="lock_layout_description" translatable="false">lock layout description to be used a unique id to lock screen</string>
     <string name="olauncher_pro" translatable="false">Olauncher Pro</string>
-    <string name="me2nh" translatable="false"><u>Me2NH❤</u></string>
+    <string name="me2nh" translatable="false">Me2NH❤</string>
     <string name="day_battery" formatted="false" translatable="false">%s, %d%%</string>
     <string name="tag_0" translatable="false">0</string>
     <string name="tag_1" translatable="false">1</string>

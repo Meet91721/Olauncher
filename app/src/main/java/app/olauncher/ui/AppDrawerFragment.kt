@@ -18,6 +18,7 @@ import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import app.olauncher.helper.appOpenCount
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isSystemApp
@@ -111,6 +112,8 @@ class AppDrawerFragment : Fragment() {
             appClickListener = {
                 if (it.appPackage.isEmpty())
                     return@AppDrawerAdapter
+                it.openCount = it.openCount + 1
+                appOpenCount[it.appPackage] = it.openCount.toShort()
                 viewModel.selectedApp(it, flag)
                 if (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_HIDDEN_APPS)
                     findNavController().popBackStack(R.id.mainFragment, false)
