@@ -21,6 +21,7 @@
     <string name="follow">Prati</string>
     <string name="email">E-pošta</string>
     <string name="github">Github</string>
+    <string name="githubF">Github Fork</string>
     <string name="donate">Doniraj</string>
     <string name="swipe_up_for_apps">1. Povuci prema gore za aplikacije\n2. Dugo pritisnite bilo gdje za postavke</string>
     <string name="apps_on_home_screen">Aplikacije na početnoj stranici</string>
